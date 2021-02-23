@@ -1,13 +1,60 @@
 <!DOCTYPE html>
 <html>
-<link rel="icon" href="https://cdn.discordapp.com/attachments/473251140398612483/813535843171172392/frontfacingmario.png" type="image/icon type">
+<link rel="icon" href="../icon.png" type="image/icon type">
 <body>
-<h1>Trabajo en progreso</h1>
-<p>Work in progress.</p>
+<h1>Earthbound HP Scroll GIF generator</h1>
+<p>Font ripped by: Jackster, reripper: Depressed Mario</p>
+<canvas id="bx" width="56" height="64"></canvas>
+<br>
+<input type="radio" id="texthp" name="textchoose" value="texthp">
+<label for="male">HP</label>
+<input type="radio" id="textpv" name="textchoose" value="textpv" checked>
+<label for="female">PV</label><br>
 <script>
+var c=document.getElementById("bx");
+var ctx=c.getContext("2d");
+sourceimage = new Image();
+sourceimage.src = 'frame1.png'
+sourceimage.onload = function()
+{
+	ctx.drawImage(sourceimage, 0, 0);
+}
+
+document.write("<br>Nombre: ");
+var hpname = document.createElement("INPUT");
+hpname.setAttribute("type", "text");
+document.body.appendChild(hpname);
+
+document.write("<br>Número de PV inicial: ");
+var initialHPbtn = document.createElement("INPUT");
+initialHPbtn.setAttribute("type", "text");
+document.body.appendChild(initialHPbtn);
+
+document.write("<br>Número de PV final: ");
+var finalHPbtn = document.createElement("INPUT");
+finalHPbtn.setAttribute("type", "text");
+document.body.appendChild(finalHPbtn);
+
+document.write("<br>Número de PP inicial: ");
+var initialPPbtn = document.createElement("INPUT");
+initialPPbtn.setAttribute("type", "text");
+document.body.appendChild(initialPPbtn);
+
+document.write("<br>Número de PP final: ");
+var finalPPbtn = document.createElement("INPUT");
+finalPPbtn.setAttribute("type", "text");
+document.body.appendChild(finalPPbtn);
+
+document.write("<br>");
 var btn = document.createElement("BUTTON");
-btn.innerHTML = "CLICK ME";  
-document.body.appendChild(btn);    
+btn.innerHTML = "GENERAR";  
+document.body.appendChild(btn); 
+
+function dopixel(param1, param2, param3, param4, param5)
+{
+	ctx.fillStyle = "rgb("+param3+","+param4+","+param5+","+(255/255)+")";
+	ctx.fillRect( param1, param2, 1, 1 );
+}
 </script>
 </body>
 </html>
