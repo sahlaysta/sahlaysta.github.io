@@ -3,22 +3,32 @@
 <link rel="icon" href="../icon.png" type="image/icon type">
 <body>
 <h1>Earthbound HP Scroll GIF generator</h1>
-<p>Font ripped by: Jackster, reripper: Depressed Mario</p>
+<p>Programado por porog<br>
+Made with gif.js by https://jnordberg.github.io/gif.js/<br>
+Earthbound Font ripped by: Jackster, reripper: Depressed Mario https://www.spriters-resource.com/snes/earthbound/sheet/37003/</p>
+
 <canvas id="bx" width="56" height="64"></canvas>
 <br>
+<input type="radio" id="style1" name="styles" value="style1" checked>
+<label for="style1">Estilo 1</label>
+<br>
+
 <input type="radio" id="texthp" name="textchoose" value="texthp">
 <label for="male">HP</label>
 <input type="radio" id="textpv" name="textchoose" value="textpv" checked>
 <label for="female">PV</label><br>
+<script src="gif.js"></script>
 <script>
 var c=document.getElementById("bx");
 var ctx=c.getContext("2d");
 sourceimage = new Image();
-sourceimage.src = 'frame1.png'
+sourceimage.src = 'frame1.png';
 sourceimage.onload = function()
 {
 	ctx.drawImage(sourceimage, 0, 0);
 }
+
+letter("N");
 
 document.write("<br>Nombre: ");
 var hpname = document.createElement("INPUT");
@@ -49,11 +59,45 @@ document.write("<br>");
 var btn = document.createElement("BUTTON");
 btn.innerHTML = "GENERAR";  
 document.body.appendChild(btn); 
-
-function dopixel(param1, param2, param3, param4, param5)
+btn.onclick = function()
 {
-	ctx.fillStyle = "rgb("+param3+","+param4+","+param5+","+(255/255)+")";
-	ctx.fillRect( param1, param2, 1, 1 );
+	var canv = document.createElement('canvas');
+	canv.width=56;
+	canv.height=64;
+	canv.id = 'someId';
+	var canvx = canv.getContext("2d");
+	sourceimage = new Image();
+	sourceimage.src = 'frame1.png'
+	sourceimage.onload = function()
+	{
+		canvx.drawImage(sourceimage, 0, 0);
+		dopixel(canvx, 10, 13, 255, 255, 255);
+		
+			var gif = new GIF({
+  workers: 2,
+  quality: 10,
+  width: 56,
+  height: 64
+});
+gif.addFrame(ctx, {copy: true});
+gif.addFrame(canvx, {copy: true});
+gif.on('finished', function(blob) {
+  window.open(URL.createObjectURL(blob));
+});
+
+gif.render();
+	}
+	document.body.appendChild(canv);
+}
+
+function dopixel(param6, param1, param2, param3, param4, param5)
+{
+	param6.fillStyle = "rgb("+param3+","+param4+","+param5+","+(255/255)+")";
+	param6.fillRect( param1, param2, 1, 1 );
+}
+function letter(param1)
+{
+	document.write(param1.charCodeAt(0));
 }
 </script>
 </body>
