@@ -118,10 +118,11 @@ function paintname(param1, param2, param3, param4)
 	var name = param1 + " ";
 	var x = param3;
 	var y = param4;
+	var spacing = 6;
 	var i;
 	for (i = 0; i < param1.length; i++)
 	{
-		letter(param2, param1.substr(i, 1), 10 + (i * 6), 13);
+		letter(param2, param1.substr(i, 1), param3 + (i * spacing), param4);
 	}
 	//letter(param2, "C", 10, 13);
 	//letter(param2, "N", 16, 13);
@@ -138,7 +139,7 @@ function addframe(param1, param2, param3)
 	sourceimage.onload = function()
 	{
 		canvx.drawImage(sourceimage, 0, 0);
-		paintname(document.getElementById("hpn").value, canvx, 10, 13);
+		paintname(document.getElementById("hpn").value, canvx, 10, 12);
 	}
 	document.body.appendChild(canv);
 }
