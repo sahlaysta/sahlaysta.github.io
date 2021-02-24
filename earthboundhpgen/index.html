@@ -71,7 +71,7 @@ btn.onclick = function()
 	{
 		return;
 	}
-	addframe(name, 1, 3);
+	addframe(document.getElementById("hpn").value);
 }
 function vibecheck()
 {
@@ -132,7 +132,7 @@ function paintname(param1, param2, param3, param4)
 	//letter(param2, "C", 10, 13);
 	//letter(param2, "N", 16, 13);
 }
-function addframe(param1, param2, param3)
+function addframe(param1)
 {
 	var canv = document.createElement('canvas');
 	canv.width=56;
@@ -144,7 +144,7 @@ function addframe(param1, param2, param3)
 	sourceimage.onload = function()
 	{
 		canvx.drawImage(sourceimage, 0, 0);
-		paintname(document.getElementById("hpn").value, canvx, 10, 12);
+		paintname(param1, canvx, 10, 12);
 	}
 	document.body.appendChild(canv);
 }
