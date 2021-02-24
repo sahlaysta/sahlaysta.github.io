@@ -13,9 +13,9 @@ Earthbound Font ripped by: Jackster, reripper: Depressed Mario https://www.sprit
 <label for="style1">Estilo 1</label>
 <br>
 
-<input type="radio" id="texthp" name="textchoose" value="texthp">
+<input type="radio" id="texthp" name="textchoose" value="texthp" onchange="setj()">
 <label for="male">HP</label>
-<input type="radio" id="textpv" name="textchoose" value="textpv" checked>
+<input type="radio" id="textpv" name="textchoose" value="textpv" onchange="setj()" checked>
 <label for="female">PV</label><br>
 <script src="gif.js"></script>
 <script>
@@ -30,6 +30,14 @@ gif.on('finished', function(blob) {
 window.open(URL.createObjectURL(blob));
 });
 	
+var hptxt = "";
+setj();
+function setj()
+{
+	if(document.getElementById('texthp').checked) { hptxt = "HP";}
+	if(document.getElementById('textpv').checked) { hptxt = "PV";}
+}
+
 var c=document.getElementById("bx");
 var ctx=c.getContext("2d");
 sourceimage = new Image();
@@ -175,6 +183,7 @@ function addframe(param1, param2, param3)
 	{
 		canvx.drawImage(sourceimage, 0, 0);
 		paintname(param1, canvx, 10, 12, "", "white", 6);
+		//Number on box
 		var hp = "" + param2;
 		if (hp.length==2)
 		{
@@ -196,6 +205,18 @@ function addframe(param1, param2, param3)
 			pp = "  " + pp;
 		}
 		paintname(pp, canvx, 26, 43, "num", "black", 8);
+		
+		//HP or PV text
+		if (hptxt == "HP")
+		{
+			paintname("0", canvx, 10, 27, "hptxt", "white", 0);
+		}
+		if (hptxt == "PV")
+		{
+			paintname("1", canvx, 10, 27, "hptxt", "white", 0);
+		}
+		//PP text
+		paintname("A", canvx, 10, 43, "hptxt", "white", 0);
 		
 		//add gif
 		gif.addFrame(canvx, {copy: true, delay: 160});
