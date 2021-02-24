@@ -27,11 +27,17 @@ sourceimage.onload = function()
 {
 	ctx.drawImage(sourceimage, 0, 0);
 }
-
-letter("N");
+var fontlib = "a";
+var client = new XMLHttpRequest();
+client.open('GET', 'font.txt');
+client.onreadystatechange = function() {
+	fontlib = client.responseText;
+}
+client.send();
 
 document.write("<br>Nombre: ");
 var hpname = document.createElement("INPUT");
+hpname.id = "hpn";
 hpname.setAttribute("type", "text");
 document.body.appendChild(hpname);
 
@@ -61,6 +67,67 @@ btn.innerHTML = "GENERAR";
 document.body.appendChild(btn); 
 btn.onclick = function()
 {
+	if (vibecheck() == false)
+	{
+		return;
+	}
+	addframe(name, 1, 3);
+}
+function vibecheck()
+{
+	var vibe = true;
+	
+	var nameboxt = document.getElementById("hpn").value;
+	for (index = 0; index < nameboxt.length; ++index)
+	{
+		if (fontlib.indexOf("\"" + (nameboxt.substr(index, 1).charCodeAt(0)) + "\"") == -1)
+		{
+			alert('Nombre tiene letra inválida: \'' + nameboxt.substr(index, 1) + '\'');
+			vibe = false;
+			break;
+		}
+	}
+	return vibe;
+}
+function dopixel(param6, param1, param2, param3, param4, param5)
+{
+	param6.fillStyle = "rgb("+param3+","+param4+","+param5+","+(255/255)+")";
+	param6.fillRect( param1, param2, 1, 1 );
+}
+function letter(param2, param1, param3, param4)
+{
+	var focus = fontlib.substr(fontlib.indexOf("\"" + (param1.charCodeAt(0)) + "\"") + ("\"" + (param1.charCodeAt(0)) + "\"").length+2, fontlib.substr(fontlib.indexOf("\"" + (param1.charCodeAt(0)) + "\"")).indexOf("end")-9).replace(/(\r\n|\n|\r)/gm, "").split(";");
+	var i = 0;
+	var x = param3;
+	var y = param4;
+	for (index = 0; index < focus.length; ++index)
+	{
+		//document.write(focus[index] + "<br>");
+		for (iq = 0; iq < focus[index].length; ++iq)
+		{
+			if (focus[index].substr(iq, 1).charCodeAt(0) == 9608)
+			{
+				dopixel(param2, x + iq, y + index, 255, 255, 255);
+			}
+			//dopixel(param2, x, y + index, 255, 255, 255);
+		}
+	}
+}
+function paintname(param1, param2, param3, param4)
+{
+	var name = param1 + " ";
+	var x = param3;
+	var y = param4;
+	var i;
+	for (i = 0; i < param1.length; i++)
+	{
+		letter(param2, param1.substr(i, 1), 10 + (i * 6), 13);
+	}
+	//letter(param2, "C", 10, 13);
+	//letter(param2, "N", 16, 13);
+}
+function addframe(param1, param2, param3)
+{
 	var canv = document.createElement('canvas');
 	canv.width=56;
 	canv.height=64;
@@ -71,33 +138,9 @@ btn.onclick = function()
 	sourceimage.onload = function()
 	{
 		canvx.drawImage(sourceimage, 0, 0);
-		dopixel(canvx, 10, 13, 255, 255, 255);
-		
-			var gif = new GIF({
-  workers: 2,
-  quality: 10,
-  width: 56,
-  height: 64
-});
-gif.addFrame(ctx, {copy: true});
-gif.addFrame(canvx, {copy: true});
-gif.on('finished', function(blob) {
-  window.open(URL.createObjectURL(blob));
-});
-
-gif.render();
+		paintname(document.getElementById("hpn").value, canvx, 10, 13);
 	}
 	document.body.appendChild(canv);
-}
-
-function dopixel(param6, param1, param2, param3, param4, param5)
-{
-	param6.fillStyle = "rgb("+param3+","+param4+","+param5+","+(255/255)+")";
-	param6.fillRect( param1, param2, 1, 1 );
-}
-function letter(param1)
-{
-	document.write(param1.charCodeAt(0));
 }
 </script>
 </body>
