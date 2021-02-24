@@ -62,21 +62,25 @@ document.body.appendChild(hpname);
 
 document.write("<br>Número de PV inicial: ");
 var initialHPbtn = document.createElement("INPUT");
+initialHPbtn.id = "inithp";
 initialHPbtn.setAttribute("type", "text");
 document.body.appendChild(initialHPbtn);
 
 document.write("<br>Número de PV final: ");
 var finalHPbtn = document.createElement("INPUT");
+finalHPbtn.id = "finhp";
 finalHPbtn.setAttribute("type", "text");
 document.body.appendChild(finalHPbtn);
 
 document.write("<br>Número de PP inicial: ");
 var initialPPbtn = document.createElement("INPUT");
+initialPPbtn.id = "initpp";
 initialPPbtn.setAttribute("type", "text");
 document.body.appendChild(initialPPbtn);
 
 document.write("<br>Número de PP final: ");
 var finalPPbtn = document.createElement("INPUT");
+finalPPbtn.id = "finpp";
 finalPPbtn.setAttribute("type", "text");
 document.body.appendChild(finalPPbtn);
 
@@ -92,13 +96,17 @@ btn.onclick = function()
 		return;
 	}
 	document.getElementById("bun").disabled = true;
-	addframe(document.getElementById("hpn").value, 0, 25);
-	addframe(document.getElementById("hpn").value, 1, 25);
-	addframe(document.getElementById("hpn").value, 2, 25);
-	addframe(document.getElementById("hpn").value, 3, 25);
+	var start = parseInt(document.getElementById("inithp").value);
+	var end = parseInt(document.getElementById("finhp").value);
+	while (start != end)
+	{
+		addframe(document.getElementById("hpn").value, start, 25);
+		++start;
+	}
+	addframe(document.getElementById("hpn").value, start, 25);
 	var nl = document.createElement("div");document.body.appendChild(nl);
 	var btn2 = document.createElement("BUTTON");
-	btn2.innerHTML = "DESCARGAR";  
+	btn2.innerHTML = "Descargar GIF";  
 	document.body.appendChild(btn2); 
 	btn2.onclick = function()
 	{
@@ -107,19 +115,61 @@ btn.onclick = function()
 }
 function vibecheck()
 {
-	var vibe = true;
-	
+	//if name has invalid chars
 	var nameboxt = document.getElementById("hpn").value;
 	for (index = 0; index < nameboxt.length; ++index)
 	{
 		if (fontlib.indexOf("\"" + (nameboxt.substr(index, 1).charCodeAt(0)) + "\"") == -1)
 		{
 			alert('Nombre tiene letra inválida: \'' + nameboxt.substr(index, 1) + '\'');
-			vibe = false;
-			break;
+			return false;
 		}
 	}
-	return vibe;
+	//if empty number box
+	if (document.getElementById("inithp").value.length==0 ||
+	document.getElementById("finhp").value.length==0 ||
+	document.getElementById("initpp").value.length==0 ||
+	document.getElementById("finpp").value.length==0
+	)
+	{
+		alert('Introduce un número');
+		return false;
+	}
+	//if any number has a character that isn't a number
+	var str = 
+	document.getElementById("inithp").value +
+	document.getElementById("finhp").value +
+	document.getElementById("initpp").value +
+	document.getElementById("finpp").value;
+	for (index = 0; index < str.length; ++index)
+	{
+		if (str.substr(index, 1).charCodeAt(0) != 48 &&
+		str.substr(index, 1).charCodeAt(0) != 49 &&
+		str.substr(index, 1).charCodeAt(0) != 50 &&
+		str.substr(index, 1).charCodeAt(0) != 51 &&
+		str.substr(index, 1).charCodeAt(0) != 52 &&
+		str.substr(index, 1).charCodeAt(0) != 53 &&
+		str.substr(index, 1).charCodeAt(0) != 54 &&
+		str.substr(index, 1).charCodeAt(0) != 55 &&
+		str.substr(index, 1).charCodeAt(0) != 56 &&
+		str.substr(index, 1).charCodeAt(0) != 57
+		)
+		{
+			alert('Introduce un número');
+			return false;
+		}
+	}
+	
+	//if numbers are too long
+	if (document.getElementById("inithp").value.length > 3 ||
+	document.getElementById("finhp").value.length > 3 ||
+	document.getElementById("initpp").value.length > 3 ||
+	document.getElementById("finpp").value.length > 3)
+	{
+		alert('Número debe ser de menos de 4 dígitos');
+		return false;
+	}
+	return true;
 }
 function dopixel(param6, param1, param2, param3, param4, param5)
 {
