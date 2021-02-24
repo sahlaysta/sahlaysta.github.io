@@ -19,6 +19,17 @@ Earthbound Font ripped by: Jackster, reripper: Depressed Mario https://www.sprit
 <label for="female">PV</label><br>
 <script src="gif.js"></script>
 <script>
+var gif = new GIF({
+	transparent: 'rgba(0,0,0,0)',
+	workers: 2,
+	quality: 10,
+	width: 56,
+	height: 64
+});
+gif.on('finished', function(blob) {
+window.open(URL.createObjectURL(blob));
+});
+	
 var c=document.getElementById("bx");
 var ctx=c.getContext("2d");
 sourceimage = new Image();
@@ -63,6 +74,7 @@ document.body.appendChild(finalPPbtn);
 
 document.write("<br>");
 var btn = document.createElement("BUTTON");
+btn.id = "bun";
 btn.innerHTML = "GENERAR";  
 document.body.appendChild(btn); 
 btn.onclick = function()
@@ -71,7 +83,19 @@ btn.onclick = function()
 	{
 		return;
 	}
+	document.getElementById("bun").disabled = true;
 	addframe(document.getElementById("hpn").value, 0, 25);
+	addframe(document.getElementById("hpn").value, 1, 25);
+	addframe(document.getElementById("hpn").value, 2, 25);
+	addframe(document.getElementById("hpn").value, 3, 25);
+	var nl = document.createElement("div");document.body.appendChild(nl);
+	var btn2 = document.createElement("BUTTON");
+	btn2.innerHTML = "DESCARGAR";  
+	document.body.appendChild(btn2); 
+	btn2.onclick = function()
+	{
+		gif.render();
+	}
 }
 function vibecheck()
 {
@@ -108,9 +132,9 @@ function letter(param2, param1, param3, param4, param5, param6)
 	var b = 255;
 	if (param6 == "black")
 	{
-		r = 0;
-		g = 0;
-		b = 0;
+		r = 16;
+		g = 16;
+		b = 16;
 	}
 	//document.write(fontlib);
 	for (index = 0; index < focus.length; ++index)
@@ -172,6 +196,9 @@ function addframe(param1, param2, param3)
 			pp = "  " + pp;
 		}
 		paintname(pp, canvx, 26, 43, "num", "black", 8);
+		
+		//add gif
+		gif.addFrame(canvx, {copy: true, delay: 160});
 	}
 	document.body.appendChild(canv);
 }
