@@ -98,12 +98,15 @@ btn.onclick = function()
 	document.getElementById("bun").disabled = true;
 	var start = parseInt(document.getElementById("inithp").value);
 	var end = parseInt(document.getElementById("finhp").value);
-	while (start != end)
+	var start2 = parseInt(document.getElementById("initpp").value);
+	var end2 = parseInt(document.getElementById("finpp").value);
+	while (start != end || start2 != end2)
 	{
-		addframe(document.getElementById("hpn").value, start, 25);
-		++start;
+		addframe(document.getElementById("hpn").value, start, start2);
+		if (start!=end){ if (start < end){ ++start; } if (start > end) { start = start - 1; } }
+		if (start2!=end2){ if (start2 < end2){ ++start2; } if (start2 > end2) { start2 = start2 - 1; } }
 	}
-	addframe(document.getElementById("hpn").value, start, 25);
+	addframe(document.getElementById("hpn").value, start, start2);
 	var nl = document.createElement("div");document.body.appendChild(nl);
 	var btn2 = document.createElement("BUTTON");
 	btn2.innerHTML = "Descargar GIF";  
