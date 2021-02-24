@@ -95,14 +95,14 @@ function dopixel(param6, param1, param2, param3, param4, param5)
 	param6.fillRect( param1, param2, 1, 1 );
 }
 function letter(param2, param1, param3, param4)
-{
+{	
 	var focus = fontlib.substr(fontlib.indexOf("\"" + (param1.charCodeAt(0)) + "\"") + ("\"" + (param1.charCodeAt(0)) + "\"").length+2, fontlib.substr(fontlib.indexOf("\"" + (param1.charCodeAt(0)) + "\"")).indexOf("end")-9).replace(/(\r\n|\n|\r)/gm, "").split(";");
 	var i = 0;
 	var x = param3;
 	var y = param4;
 	for (index = 0; index < focus.length; ++index)
 	{
-		//document.write(focus[index] + "<br>");
+		document.write(focus[index] + "<br>");
 		for (iq = 0; iq < focus[index].length; ++iq)
 		{
 			if (focus[index].substr(iq, 1).charCodeAt(0) == 9608)
