@@ -71,7 +71,7 @@ btn.onclick = function()
 	{
 		return;
 	}
-	addframe(document.getElementById("hpn").value);
+	addframe(document.getElementById("hpn").value, 0, 25);
 }
 function vibecheck()
 {
@@ -94,16 +94,24 @@ function dopixel(param6, param1, param2, param3, param4, param5)
 	param6.fillStyle = "rgb("+param3+","+param4+","+param5+","+(255/255)+")";
 	param6.fillRect( param1, param2, 1, 1 );
 }
-function letter(param2, param1, param3, param4)
+function letter(param2, param1, param3, param4, param5, param6)
 {	
-	var focustemp = fontlib.substr(fontlib.indexOf("\"" + (param1.charCodeAt(0)) + "\"") + ("\"" + (param1.charCodeAt(0)) + "\"").length+1);
+	var focustemp = fontlib.substr(fontlib.indexOf("\"" + param5 + (param1.charCodeAt(0)) + "\"") + ("\"" + param5 + (param1.charCodeAt(0)) + "\"").length+1);
 	focustemp = focustemp.substr(0, focustemp.indexOf("end"));
 	focustemp = focustemp.replace(/(\r\n|\n|\r)/gm, "");
-	//document.write(focustemp + "<br>");
 	var focus = focustemp.split(";");
 	var i = 0;
 	var x = param3;
 	var y = param4;
+	var r = 255;
+	var g = 255;
+	var b = 255;
+	if (param6 == "black")
+	{
+		r = 0;
+		g = 0;
+		b = 0;
+	}
 	//document.write(fontlib);
 	for (index = 0; index < focus.length; ++index)
 	{
@@ -112,27 +120,25 @@ function letter(param2, param1, param3, param4)
 		{
 			if (focus[index].substr(iq, 1).charCodeAt(0) == 9608)
 			{
-				dopixel(param2, x + iq, y + index, 255, 255, 255);
+				dopixel(param2, x + iq, y + index, r, g, b);
 			}
 			//dopixel(param2, x, y + index, 255, 255, 255);
 		}
 	}
 }
-function paintname(param1, param2, param3, param4)
+function paintname(param1, param2, param3, param4, param5, param6, param7)
 {
 	var name = param1 + " ";
 	var x = param3;
 	var y = param4;
-	var spacing = 6;
+	var spacing = param7;
 	var i;
 	for (i = 0; i < param1.length; i++)
 	{
-		letter(param2, param1.substr(i, 1), param3 + (i * spacing), param4);
+		letter(param2, param1.substr(i, 1), param3 + (i * spacing), param4, param5, param6);
 	}
-	//letter(param2, "C", 10, 13);
-	//letter(param2, "N", 16, 13);
 }
-function addframe(param1)
+function addframe(param1, param2, param3)
 {
 	var canv = document.createElement('canvas');
 	canv.width=56;
@@ -144,7 +150,28 @@ function addframe(param1)
 	sourceimage.onload = function()
 	{
 		canvx.drawImage(sourceimage, 0, 0);
-		paintname(param1, canvx, 10, 12);
+		paintname(param1, canvx, 10, 12, "", "white", 6);
+		var hp = "" + param2;
+		if (hp.length==2)
+		{
+			hp = " " + hp;
+		}
+		if (hp.length==1)
+		{
+			hp = "  " + hp;
+		}
+		paintname(hp, canvx, 26, 27, "num", "black", 8);
+		
+		var pp = "" + param3;
+		if (pp.length==2)
+		{
+			pp = " " + pp;
+		}
+		if (hp.length==1)
+		{
+			pp = "  " + pp;
+		}
+		paintname(pp, canvx, 26, 43, "num", "black", 8);
 	}
 	document.body.appendChild(canv);
 }
