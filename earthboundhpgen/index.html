@@ -327,16 +327,19 @@ function addframe(param1, param2, param3, param4, param5)
 				sourceimage2.onload = function()
 				{
 					ctx2.drawImage(sourceimage2, 0, 0);
+					var a = document.createElement("a");
+					a.href = genblob;
+					a.setAttribute("download", genblob + ".gif");
+					a.click();
 				}
 				var nl = document.createElement("div");document.body.appendChild(nl); //new line
-				document.body.appendChild(c2);
+				//document.body.appendChild(c2);
 				var nl = document.createElement("div");document.body.appendChild(nl); //new line
-				document.body.appendChild(btn2); 
+				//document.body.appendChild(btn2); 
 				});
 			gif.render();
 			btn2.onclick = function()
 			{
-				window.open(genblob);
 			}
 		}
 	}
