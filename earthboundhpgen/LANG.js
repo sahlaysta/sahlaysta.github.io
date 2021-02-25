@@ -2,7 +2,7 @@
 lang = {
     libs :
 	[
-	"ifBrowserLang:en",
+	"ifBrowserLang:en", //English by porog
 			"Name",
 			"Initial HP number",
 			"Final HP number",
@@ -16,7 +16,7 @@ lang = {
 			"Number must be less than 4 digits",
 			"Style",
 			"Programmed by [v]",
-	"ifBrowserLang:es",
+	"ifBrowserLang:es", //Spanish by porog
 			"Nombre",
 			"Número de PV inicial",
 			"Número de PV final",
@@ -30,6 +30,20 @@ lang = {
 			"Número debe ser de menos de 4 dígitos",
 			"Estilo",
 			"Programado por [v]",
+	"ifBrowserLang:ja", //Japanese by porog
+			"名",
+			"HPの初期値",
+			"HPの最終値",
+			"PPの初期値",
+			"PPの最終値",
+			"生成する",
+			"GIFをダウンロード",
+			"生成完了",
+			"名に無効な文字が含まれています",
+			"数字を入力してください",
+			"4桁以内の数値にしてください。",
+			"スタイル",
+			"[v]によって作成されました",
 	""
 	]
 };
