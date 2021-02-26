@@ -8,9 +8,10 @@
 Earthbound Font ripped by: Jackster, reripper: Depressed Mario https://www.spriters-resource.com/snes/earthbound/sheet/37003/</p>
 
 <canvas id="bx" width="0" height="0"></canvas>
-<input type="radio" id="style1" name="styles" value="style1" checked>
-<label for="style1" id = "style1label"></label>
+
+<div id="styles"></div>
 <br>
+
 
 <input type="radio" id="texthp" name="textchoose" value="texthp" onchange="setj()">
 <label for="male">HP</label>
@@ -20,6 +21,8 @@ Earthbound Font ripped by: Jackster, reripper: Depressed Mario https://www.sprit
 
 <script src="gif.js"></script>
 <script>
+
+//initialize gif
 var delayv = 160;
 var gif = new GIF({
 	transparent: 'rgba(0,0,0,0)',
@@ -89,8 +92,53 @@ function s(param1)
 	return langarr[langfocus + param1]
 }
 
+//radios
+var radio_home = document.getElementById("styles");
+var firstcheck = false;
+
+function makeRadioButton(name, value, text) {
+
+  var label = document.createElement("label");
+  var radio = document.createElement("input");
+  radio.type = "radio";
+  radio.name = name;
+  radio.value = value;
+  if (firstcheck == false)
+  {
+	radio.checked = true;
+	firstcheck = true;
+  }
+  
+  label.appendChild(radio);
+
+  label.appendChild(document.createTextNode(text));
+  return label;
+}
+
+var hiterr = true;
+var styles = ["placeholder"];
+styles = styles.slice(1);
+
+var testno = 1;
+while(hiterr == true)
+{
+	var http = new XMLHttpRequest();
+    http.open('HEAD', 'patterns/' + testno + '.png', false);
+    http.send();
+    hiterr = http.status!=404;
+	if (hiterr == true)
+	{
+		styles.push("patterns/" + testno + ".png");
+	}
+	++testno;
+}
+
+for (i = 0; i < styles.length; ++i)
+{
+	radio_home.appendChild(makeRadioButton("styles", (i + 1) + "", s(12) + " " + styles[i].replace("patterns/", "").replace(".png", "")));
+}
+
 //gui
-document.getElementById('style1label').innerHTML = s(12) + " 1"; //style 1
 document.getElementById('progby').innerHTML = s(13).replace("[v]", "porog"); //programmed by
 
 document.write("<br>" + s(1) + ": ");
@@ -131,6 +179,16 @@ document.body.appendChild(btn);
 //generate
 btn.onclick = function()
 {
+	var rates = document.getElementsByName('styles');
+	var rate_value;
+	for(var i = 0; i < rates.length; i++)
+	{
+		if(rates[i].checked)
+		{
+			rate_value = rates[i].value;
+		}
+	}
+	
 	if (vibecheck() == false)
 	{
 		return;
