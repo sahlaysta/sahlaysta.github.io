@@ -21,7 +21,27 @@ Earthbound Font ripped by: Jackster, reripper: Depressed Mario https://www.sprit
 
 <script src="gif.js"></script>
 <script>
-
+//frame arr
+var imageURLs = [
+"frame_1.png",
+"frame_2.png",
+"frame_3.png",
+"frame_4.png",
+"frame_5.png",
+"frame_6.png",
+"frame_7.png"
+];
+var imageObjs = [];
+var imagesLoaded = 0;
+for (var i = 0; i < imageURLs.length; i++) {
+    var image = new Image();
+    image.addEventListener( "load", function() {
+        imagesLoaded++;
+        //if (imagesLoaded == imageURLs.length) allImagesLoaded();
+    } );
+    image.src = imageURLs[i];
+    imageObjs.push(image);
+	}
 //initialize gif
 var delayv = 160;
 var gif = new GIF({
@@ -42,10 +62,10 @@ function setj()
 var c=document.getElementById("bx");
 var ctx=c.getContext("2d");
 sourceimage = new Image();
-sourceimage.src = 'frame1.png';
+//sourceimage.src = 'frame1.png';
 sourceimage.onload = function()
 {
-	ctx.drawImage(sourceimage, 0, 0);
+	//ctx.drawImage(sourceimage, 0, 0);
 }
 
 var fontlib = "a";
@@ -120,21 +140,40 @@ var styles = ["placeholder"];
 styles = styles.slice(1);
 
 var testno = 1;
+
 while(hiterr == true)
 {
 	var http = new XMLHttpRequest();
     http.open('HEAD', 'patterns/' + testno + '.png', false);
     http.send();
     hiterr = http.status!=404;
-	if (hiterr == true)
-	{
+	//if (hiterr == true)
+	//{
 		styles.push("patterns/" + testno + ".png");
-	}
+	//}
 	++testno;
+}
+styles.pop();
+
+var stylesx = [1];
+stylesx = stylesx.slice(1);
+var stylesy = [1];
+stylesy = stylesy.slice(1);
+
+function widthget(param1)
+{
+	var isize = new Image();
+	isize.src = "patterns/3.png";
+	isize.onload = function()
+	{
+		stylesx.push(isize.width);
+		stylesy.push(isize.height);
+	}
 }
 
 for (i = 0; i < styles.length; ++i)
 {
+	widthget("patterns/2.png");
 	radio_home.appendChild(makeRadioButton("styles", (i + 1) + "", s(12) + " " + styles[i].replace("patterns/", "").replace(".png", "")));
 }
 
@@ -188,6 +227,7 @@ btn.onclick = function()
 			rate_value = rates[i].value;
 		}
 	}
+	alert(styles + "\n" + stylesx + "\n" + stylesy);
 	
 	if (vibecheck() == false)
 	{
@@ -198,6 +238,7 @@ btn.onclick = function()
 	var end = parseInt(document.getElementById("finhp").value);
 	var start2 = parseInt(document.getElementById("initpp").value);
 	var end2 = parseInt(document.getElementById("finpp").value);
+	addframe("", 0, 0, 0, "initialize");//initialize
 	while (start != end || start2 != end2)
 	{
 		addframe(document.getElementById("hpn").value, start, start2, delayv, "");
@@ -316,18 +357,56 @@ function paintname(param1, param2, param3, param4, param5, param6, param7)
 }
 function addframe(param1, param2, param3, param4, param5)
 {
+	var framewidth = 80;
+	var frameheight = 64;
 	var canv = document.createElement('canvas');
-	canv.width=56;
-	canv.height=64;
+	canv.width=framewidth;
+	canv.height=frameheight;
 	canv.id = 'someId';
 	var canvx = canv.getContext("2d");
-	sourceimage = new Image();
-	sourceimage.src = 'frame1.png'
-	sourceimage.onload = function()
+	allImagesLoaded();
+	
+	function allImagesLoaded()
 	{
-		canvx.drawImage(sourceimage, 0, 0);
+		if (param5 == "initialize")
+		{
+			gif = new GIF({
+			transparent: 'rgba(0,0,0,0)',
+			workers: 2,
+			quality: 10,
+			width: framewidth,
+			height: 64
+			});
+			return;
+		}
+		//border frame
+		var bordstart = 0;
+		var bordend = 0;
+		var framesize = 8;
+		canvx.drawImage(imageObjs[6], framewidth-framesize-24, frameheight-framesize-32);
+		//canvx.drawImage(sourceimage, 0, 0);
+		canvx.drawImage(imageObjs[0], 0, 0);
+		canvx.drawImage(imageObjs[1], framewidth-framesize, 0);
+		canvx.drawImage(imageObjs[2], 0, frameheight-framesize);
+		canvx.drawImage(imageObjs[3], framewidth-framesize, frameheight-framesize);
+		bordstart = framesize; //horizontal
+		bordend = framewidth-framesize;
+		for (q = 0; q < bordend-bordstart; ++q) 
+		{
+			canvx.drawImage(imageObjs[4], bordstart + q, 0);
+			canvx.drawImage(imageObjs[4], bordstart + q, frameheight-framesize);
+		}
+		
+		bordstart = framesize; //vertical
+		bordend = frameheight-framesize;
+		for (q = 0; q < bordend-bordstart; ++q) 
+		{
+			canvx.drawImage(imageObjs[5], 0, bordstart + q);
+			canvx.drawImage(imageObjs[5], framewidth-framesize, bordstart + q);
+		}
+		
 		paintname(param1, canvx, 10, 12, "", "white", 6);
-		//Number on box
+		//Numbers on box
 		var hp = "" + param2;
 		if (hp.length==2)
 		{
@@ -337,7 +416,7 @@ function addframe(param1, param2, param3, param4, param5)
 		{
 			hp = "  " + hp;
 		}
-		paintname(hp, canvx, 26, 27, "num", "black", 8);
+		paintname(hp, canvx, framewidth-30, 27, "num", "black", 8);
 		
 		var pp = "" + param3;
 		if (pp.length==2)
@@ -348,19 +427,19 @@ function addframe(param1, param2, param3, param4, param5)
 		{
 			pp = "  " + pp;
 		}
-		paintname(pp, canvx, 26, 43, "num", "black", 8);
+		paintname(pp, canvx, framewidth-30, 43, "num", "black", 8);
 		
 		//HP or PV text
 		if (hptxt == "HP")
 		{
-			paintname("0", canvx, 10, 27, "hptxt", "white", 0);
+			paintname("0", canvx, framewidth-46, 27, "hptxt", "white", 0);
 		}
 		if (hptxt == "PV")
 		{
-			paintname("1", canvx, 10, 27, "hptxt", "white", 0);
+			paintname("1", canvx, framewidth-46, 27, "hptxt", "white", 0);
 		}
 		//PP text
-		paintname("A", canvx, 10, 43, "hptxt", "white", 0);
+		paintname("A", canvx, framewidth-46, 43, "hptxt", "white", 0);
 		
 		//add gif
 		gif.addFrame(canvx, {copy: true, delay: param4});
@@ -377,8 +456,8 @@ function addframe(param1, param2, param3, param4, param5)
 			{
 				genblob = URL.createObjectURL(blob);
 				var c2 = document.createElement('canvas');
-				c2.width=56;
-				c2.height=64;
+				c2.width=framewidth;
+				c2.height=frameheight;
 				var ctx2 = c2.getContext("2d");
 				sourceimage2 = new Image();
 				sourceimage2.src = genblob;
@@ -397,7 +476,7 @@ function addframe(param1, param2, param3, param4, param5)
 			{
 			}
 		}
-	}
+	};
 	document.body.appendChild(canv);
 	document.body.removeChild(canv);
 }
