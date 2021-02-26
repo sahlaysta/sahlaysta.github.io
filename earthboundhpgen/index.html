@@ -327,10 +327,7 @@ function addframe(param1, param2, param3, param4, param5)
 				sourceimage2.onload = function()
 				{
 					ctx2.drawImage(sourceimage2, 0, 0);
-					var a = document.createElement("a");
-					a.href = genblob;
-					a.setAttribute("download", genblob + ".gif");
-					a.click();
+					window.open(genblob,"_self")
 				}
 				var nl = document.createElement("div");document.body.appendChild(nl); //new line
 				//document.body.appendChild(c2);
