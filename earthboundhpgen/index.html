@@ -163,7 +163,7 @@ stylesy = stylesy.slice(1);
 function widthget(param1)
 {
 	var isize = new Image();
-	isize.src = "patterns/3.png";
+	isize.src = param1;
 	isize.onload = function()
 	{
 		stylesx.push(isize.width);
@@ -173,7 +173,7 @@ function widthget(param1)
 
 for (i = 0; i < styles.length; ++i)
 {
-	widthget("patterns/2.png");
+	widthget(styles[i]);
 	radio_home.appendChild(makeRadioButton("styles", (i + 1) + "", s(12) + " " + styles[i].replace("patterns/", "").replace(".png", "")));
 }
 
