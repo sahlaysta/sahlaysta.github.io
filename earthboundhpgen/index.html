@@ -239,7 +239,7 @@ btn.onclick = function()
 	var end = parseInt(document.getElementById("finhp").value);
 	var start2 = parseInt(document.getElementById("initpp").value);
 	var end2 = parseInt(document.getElementById("finpp").value);
-	addframe("", 0, 0, 0, "initialize", 0);//initialize
+	addframe(document.getElementById("hpn").value, 0, 0, 0, "initialize", 0);//initialize
 	while (start != end || start2 != end2)
 	{
 		addframe(document.getElementById("hpn").value, start, start2, delayv, "", framestyle);
@@ -358,7 +358,13 @@ function paintname(param1, param2, param3, param4, param5, param6, param7)
 }
 function addframe(param1, param2, param3, param4, param5, param6)
 {
-	var framewidth = 80;
+	var framewidth = 56; //default size
+	//alert(param1);
+	if (param1.length > 5) //increase size with name
+	{
+		var increaseage = param1.length - 6;
+		framewidth=framewidth + (increaseage * 6);
+	}
 	var frameheight = 64;
 	var canv = document.createElement('canvas');
 	canv.width=framewidth;
@@ -383,7 +389,7 @@ function addframe(param1, param2, param3, param4, param5, param6)
 		if (param5 == "initialize")
 		{
 			gif = new GIF({
-			transparent: 'rgba(0,0,0,0)',
+			transparent: 'rgba(1,0,0,255)',
 			workers: 2,
 			quality: 10,
 			width: framewidth,
@@ -469,6 +475,43 @@ function addframe(param1, param2, param3, param4, param5, param6)
 		}
 		//PP text
 		paintname("A", canvx, framewidth-46, 43, "hptxt", "white", 0);
+		
+		//transparent corners
+		dopixel(canvx, 0, 0, 1, 0, 0);
+		dopixel(canvx, 1, 0, 1, 0, 0);
+		dopixel(canvx, 2, 0, 1, 0, 0);
+		dopixel(canvx, 3, 0, 1, 0, 0);
+		dopixel(canvx, 0, 1, 1, 0, 0);
+		dopixel(canvx, 1, 1, 1, 0, 0);
+		dopixel(canvx, 0, 2, 1, 0, 0);
+		dopixel(canvx, 0, 3, 1, 0, 0);
+		
+		dopixel(canvx, framewidth-1-0, 0, 1, 0, 0);
+		dopixel(canvx, framewidth-1-1, 0, 1, 0, 0);
+		dopixel(canvx, framewidth-1-2, 0, 1, 0, 0);
+		dopixel(canvx, framewidth-1-3, 0, 1, 0, 0);
+		dopixel(canvx, framewidth-1-0, 1, 1, 0, 0);
+		dopixel(canvx, framewidth-1-1, 1, 1, 0, 0);
+		dopixel(canvx, framewidth-1-0, 2, 1, 0, 0);
+		dopixel(canvx, framewidth-1-0, 3, 1, 0, 0);
+		
+		dopixel(canvx, 0, frameheight-1-0, 1, 0, 0);
+		dopixel(canvx, 1, frameheight-1-0, 1, 0, 0);
+		dopixel(canvx, 2, frameheight-1-0, 1, 0, 0);
+		dopixel(canvx, 3, frameheight-1-0, 1, 0, 0);
+		dopixel(canvx, 0, frameheight-1-1, 1, 0, 0);
+		dopixel(canvx, 1, frameheight-1-1, 1, 0, 0);
+		dopixel(canvx, 0, frameheight-1-2, 1, 0, 0);
+		dopixel(canvx, 0, frameheight-1-3, 1, 0, 0);
+
+		dopixel(canvx, framewidth-1-0, frameheight-1-0, 1, 0, 0);
+		dopixel(canvx, framewidth-1-1, frameheight-1-0, 1, 0, 0);
+		dopixel(canvx, framewidth-1-2, frameheight-1-0, 1, 0, 0);
+		dopixel(canvx, framewidth-1-3, frameheight-1-0, 1, 0, 0);
+		dopixel(canvx, framewidth-1-0, frameheight-1-1, 1, 0, 0);
+		dopixel(canvx, framewidth-1-1, frameheight-1-1, 1, 0, 0);
+		dopixel(canvx, framewidth-1-0, frameheight-1-2, 1, 0, 0);
+		dopixel(canvx, framewidth-1-0, frameheight-1-3, 1, 0, 0);
 		
 		//add gif
 		gif.addFrame(canvx, {copy: true, delay: param4});
