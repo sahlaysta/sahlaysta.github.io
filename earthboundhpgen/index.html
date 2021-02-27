@@ -217,8 +217,13 @@ btn.id = "bun";
 btn.innerHTML = s(6);  
 document.body.appendChild(btn); 
 //generate
+var ran = false;
 btn.onclick = function()
 {
+	if (ran == true)
+	{
+		return;
+	}
 	var rates = document.getElementsByName('styles');
 	var rate_value;
 	for(var i = 0; i < rates.length; i++)
@@ -235,6 +240,7 @@ btn.onclick = function()
 	{
 		return;
 	}
+	ran = true;
 	document.getElementById("bun").disabled = true;
 	var start = parseInt(document.getElementById("inithp").value);
 	var end = parseInt(document.getElementById("finhp").value);
@@ -534,6 +540,7 @@ function addframe(param1, param2, param3, param4, param5, param6)
 				var ctx2 = c2.getContext("2d");
 				sourceimage2 = new Image();
 				sourceimage2.src = genblob;
+				//alert(3);
 				sourceimage2.onload = function()
 				{
 					ctx2.drawImage(sourceimage2, 0, 0);
