@@ -540,7 +540,7 @@ function addframe(param1, param2, param3, param4, param5, param6)
 					var a = document.createElement("a");
 					a.href = genblob;
 					a.setAttribute("download", ("" + Math.random() * 100000).replace(".", "") + ".gif");
-					a.click();
+					a.click();//dl
 				}
 				var nl = document.createElement("div");document.body.appendChild(nl); //new line
 				//document.body.appendChild(c2);
