@@ -228,6 +228,7 @@ btn.onclick = function()
 		}
 	}
 	//alert(styles + "\n" + stylesx + "\n" + stylesy);
+	var framestyle = rate_value - 1;
 	
 	if (vibecheck() == false)
 	{
@@ -238,14 +239,14 @@ btn.onclick = function()
 	var end = parseInt(document.getElementById("finhp").value);
 	var start2 = parseInt(document.getElementById("initpp").value);
 	var end2 = parseInt(document.getElementById("finpp").value);
-	addframe("", 0, 0, 0, "initialize");//initialize
+	addframe("", 0, 0, 0, "initialize", 0);//initialize
 	while (start != end || start2 != end2)
 	{
-		addframe(document.getElementById("hpn").value, start, start2, delayv, "");
+		addframe(document.getElementById("hpn").value, start, start2, delayv, "", framestyle);
 		if (start!=end){ if (start < end){ ++start; } if (start > end) { start = start - 1; } }
 		if (start2!=end2){ if (start2 < end2){ ++start2; } if (start2 > end2) { start2 = start2 - 1; } }
 	}
-	addframe(document.getElementById("hpn").value, start, start2, delayv * 10, "last");
+	addframe(document.getElementById("hpn").value, start, start2, delayv * 10, "last", framestyle);
 	var nl = document.createElement("div");document.body.appendChild(nl); //new line
 }
 function vibecheck()
@@ -355,7 +356,7 @@ function paintname(param1, param2, param3, param4, param5, param6, param7)
 		letter(param2, param1.substr(i, 1), param3 + (i * spacing), param4, param5, param6);
 	}
 }
-function addframe(param1, param2, param3, param4, param5)
+function addframe(param1, param2, param3, param4, param5, param6)
 {
 	var framewidth = 80;
 	var frameheight = 64;
@@ -364,7 +365,18 @@ function addframe(param1, param2, param3, param4, param5)
 	canv.height=frameheight;
 	canv.id = 'someId';
 	var canvx = canv.getContext("2d");
-	allImagesLoaded();
+	
+	var patternimg = new Image();
+	var ptnx = 0;
+	var ptny = 0;
+	patternimg.src = styles[param6];
+	patternimg.onload = function()
+	{
+		ptnx = patternimg.width;
+		ptny = patternimg.height;
+		allImagesLoaded();
+	}
+
 	
 	function allImagesLoaded()
 	{
@@ -379,6 +391,23 @@ function addframe(param1, param2, param3, param4, param5)
 			});
 			return;
 		}
+		//fill pattern
+		var sfill = 0;
+		var yfill = 0;
+		sfill = 0;
+		yfill = 0;
+		
+		while (yfill < frameheight)
+		{
+			while (sfill < framewidth)
+			{
+				canvx.drawImage(patternimg, sfill, yfill);
+				sfill = sfill + ptnx;
+			}
+			yfill = yfill + ptny;
+			sfill = 0;
+		}
+
 		//border frame
 		var bordstart = 0;
 		var bordend = 0;
