@@ -21,7 +21,7 @@ Earthbound Font ripped by: Jackster, reripper: Depressed Mario https://www.sprit
 
 <script src="gif.js"></script>
 <script>
-//in beta10
+//in beta11
 
 	var patternimg = new Image();
 //initialize gif
@@ -555,8 +555,8 @@ function addframe(param1, param2, param3, param4, param5, param6, param7, param8
 				sourceimage2.onload = function()
 				{
 					ctx2.drawImage(sourceimage2, 0, 0);
-					location.reload();
 					window.open(URL.createObjectURL(blob));
+					location.reload();
 					//alert(3);
 					var a = document.createElement("a");
 					a.href = genblob;
