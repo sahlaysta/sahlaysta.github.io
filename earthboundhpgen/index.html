@@ -21,28 +21,9 @@ Earthbound Font ripped by: Jackster, reripper: Depressed Mario https://www.sprit
 
 <script src="gif.js"></script>
 <script>
-//in beta3
+//in beta4
 //frame arr
-var imageURLs = [
-"frame_1.png",
-"frame_2.png",
-"frame_3.png",
-"frame_4.png",
-"frame_5.png",
-"frame_6.png",
-"frame_7.png"
-];
-var imageObjs = [];
-var imagesLoaded = 0;
-for (var i = 0; i < imageURLs.length; i++) {
-    var image = new Image();
-    image.addEventListener( "load", function() {
-        imagesLoaded++;
-        //if (imagesLoaded == imageURLs.length) allImagesLoaded();
-    } );
-    image.src = imageURLs[i];
-    imageObjs.push(image);
-	}
+
 //initialize gif
 var delayv = 160;
 var gif = new GIF({
@@ -220,6 +201,31 @@ document.body.appendChild(btn);
 var ran = false;
 btn.onclick = function()
 {
+var imageURLs = [
+"frame_1.png",
+"frame_2.png",
+"frame_3.png",
+"frame_4.png",
+"frame_5.png",
+"frame_6.png",
+"frame_7.png"
+];
+var imageObjs = [];
+var imagesLoaded = 0;
+for (var i = 0; i < imageURLs.length; i++) {
+    var image = new Image();
+    image.addEventListener( "load", function() {
+        imagesLoaded++;
+        if (imagesLoaded == imageURLs.length) generation(imageObjs);
+    } );
+    image.src = imageURLs[i];
+    imageObjs.push(image);
+	}
+
+}
+function generation(param1)
+{
+	var imageObjs = param1;
 	if (ran == true)
 	{
 		return;
@@ -246,14 +252,14 @@ btn.onclick = function()
 	var end = parseInt(document.getElementById("finhp").value);
 	var start2 = parseInt(document.getElementById("initpp").value);
 	var end2 = parseInt(document.getElementById("finpp").value);
-	addframe(document.getElementById("hpn").value, 0, 0, 0, "initialize", 0);//initialize
+	addframe(document.getElementById("hpn").value, 0, 0, 0, "initialize", 0, imageObjs);//initialize
 	while (start != end || start2 != end2)
 	{
-		addframe(document.getElementById("hpn").value, start, start2, delayv, "", framestyle);
+		addframe(document.getElementById("hpn").value, start, start2, delayv, "", framestyle, imageObjs);
 		if (start!=end){ if (start < end){ ++start; } if (start > end) { start = start - 1; } }
 		if (start2!=end2){ if (start2 < end2){ ++start2; } if (start2 > end2) { start2 = start2 - 1; } }
 	}
-	addframe(document.getElementById("hpn").value, start, start2, delayv * 10, "last", framestyle);
+	addframe(document.getElementById("hpn").value, start, start2, delayv * 10, "last", framestyle, imageObjs);
 	var nl = document.createElement("div");document.body.appendChild(nl); //new line
 }
 function vibecheck()
@@ -363,8 +369,10 @@ function paintname(param1, param2, param3, param4, param5, param6, param7)
 		letter(param2, param1.substr(i, 1), param3 + (i * spacing), param4, param5, param6);
 	}
 }
-function addframe(param1, param2, param3, param4, param5, param6)
+function addframe(param1, param2, param3, param4, param5, param6, param7)
 {
+	
+	var imageObjs = param7;
 	var framewidth = 56; //default size
 	//alert(param1);
 	if (param1.length > 5) //increase size with name
@@ -373,6 +381,18 @@ function addframe(param1, param2, param3, param4, param5, param6)
 		framewidth=framewidth + (increaseage * 6);
 	}
 	var frameheight = 64;
+	if (param5 == "initialize")
+	{
+		gif = new GIF({
+		transparent: 'rgba(1,0,0,255)',
+		workers: 2,
+		quality: 10,
+		width: framewidth,
+		height: 64
+		});
+		return;
+	}	
+	
 	var canv = document.createElement('canvas');
 	canv.width=framewidth;
 	canv.height=frameheight;
@@ -393,17 +413,6 @@ function addframe(param1, param2, param3, param4, param5, param6)
 	
 	function allImagesLoaded()
 	{
-		if (param5 == "initialize")
-		{
-			gif = new GIF({
-			transparent: 'rgba(1,0,0,255)',
-			workers: 2,
-			quality: 10,
-			width: framewidth,
-			height: 64
-			});
-			return;
-		}
 		//fill pattern
 		var sfill = 0;
 		var yfill = 0;
@@ -485,6 +494,7 @@ function addframe(param1, param2, param3, param4, param5, param6)
 		
 		//transparent corners
 		dopixel(canvx, 0, 0, 1, 0, 0);
+
 		dopixel(canvx, 1, 0, 1, 0, 0);
 		dopixel(canvx, 2, 0, 1, 0, 0);
 		dopixel(canvx, 3, 0, 1, 0, 0);
