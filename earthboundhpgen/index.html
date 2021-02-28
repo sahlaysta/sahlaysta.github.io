@@ -21,9 +21,9 @@ Earthbound Font ripped by: Jackster, reripper: Depressed Mario https://www.sprit
 
 <script src="gif.js"></script>
 <script>
-//in beta4
-//frame arr
+//in beta6
 
+	var patternimg = new Image();
 //initialize gif
 var delayv = 160;
 var gif = new GIF({
@@ -50,6 +50,7 @@ sourceimage.onload = function()
 	//ctx.drawImage(sourceimage, 0, 0);
 }
 
+//name font
 var fontlib = "a";
 var client = new XMLHttpRequest();
 client.open('GET', 'font.txt');
@@ -216,20 +217,15 @@ for (var i = 0; i < imageURLs.length; i++) {
     var image = new Image();
     image.addEventListener( "load", function() {
         imagesLoaded++;
-        if (imagesLoaded == imageURLs.length) generation(imageObjs);
+        if (imagesLoaded == imageURLs.length) proceed3(imageObjs);
     } );
     image.src = imageURLs[i];
     imageObjs.push(image);
 	}
 
 }
-function generation(param1)
+function proceed3(param1)
 {
-	var imageObjs = param1;
-	if (ran == true)
-	{
-		return;
-	}
 	var rates = document.getElementsByName('styles');
 	var rate_value;
 	for(var i = 0; i < rates.length; i++)
@@ -240,26 +236,37 @@ function generation(param1)
 		}
 	}
 	//alert(styles + "\n" + stylesx + "\n" + stylesy);
+	var imageObjs = param1;
 	var framestyle = rate_value - 1;
+	patternimg.src = styles[framestyle];
+	patternimg.onload = function()
+	{
+		generation(imageObjs, patternimg.width, patternimg.height, framestyle);
+	}
+}
+function generation(param1, param2, param3, param4)
+{
 	
 	if (vibecheck() == false)
 	{
 		return;
 	}
+	var framestyle = param4;
+	var imageObjs = param1;
 	ran = true;
 	document.getElementById("bun").disabled = true;
 	var start = parseInt(document.getElementById("inithp").value);
 	var end = parseInt(document.getElementById("finhp").value);
 	var start2 = parseInt(document.getElementById("initpp").value);
 	var end2 = parseInt(document.getElementById("finpp").value);
-	addframe(document.getElementById("hpn").value, 0, 0, 0, "initialize", 0, imageObjs);//initialize
+	addframe(document.getElementById("hpn").value, 0, 0, 0, "initialize", 0, imageObjs, param2, param3);//initialize
 	while (start != end || start2 != end2)
 	{
-		addframe(document.getElementById("hpn").value, start, start2, delayv, "", framestyle, imageObjs);
+		addframe(document.getElementById("hpn").value, start, start2, delayv, "", framestyle, imageObjs, param2, param3);
 		if (start!=end){ if (start < end){ ++start; } if (start > end) { start = start - 1; } }
 		if (start2!=end2){ if (start2 < end2){ ++start2; } if (start2 > end2) { start2 = start2 - 1; } }
 	}
-	addframe(document.getElementById("hpn").value, start, start2, delayv * 10, "last", framestyle, imageObjs);
+	addframe(document.getElementById("hpn").value, start, start2, delayv * 10, "last", framestyle, imageObjs, param2, param3);
 	var nl = document.createElement("div");document.body.appendChild(nl); //new line
 }
 function vibecheck()
@@ -369,7 +376,7 @@ function paintname(param1, param2, param3, param4, param5, param6, param7)
 		letter(param2, param1.substr(i, 1), param3 + (i * spacing), param4, param5, param6);
 	}
 }
-function addframe(param1, param2, param3, param4, param5, param6, param7)
+function addframe(param1, param2, param3, param4, param5, param6, param7, param8, param9)
 {
 	
 	var imageObjs = param7;
@@ -399,17 +406,10 @@ function addframe(param1, param2, param3, param4, param5, param6, param7)
 	canv.id = 'someId';
 	var canvx = canv.getContext("2d");
 	
-	var patternimg = new Image();
-	var ptnx = 0;
-	var ptny = 0;
-	patternimg.src = styles[param6];
-	patternimg.onload = function()
-	{
-		ptnx = patternimg.width;
-		ptny = patternimg.height;
-		allImagesLoaded();
-	}
 
+	ptnx = param8;
+	ptny = param9;
+	allImagesLoaded();
 	
 	function allImagesLoaded()
 	{
@@ -573,7 +573,7 @@ function addframe(param1, param2, param3, param4, param5, param6, param7)
 			}
 		}
 	};
-	document.body.appendChild(canv);
+	//document.body.appendChild(canv);
 	//document.body.removeChild(canv);
 }
 </script>
