@@ -56,7 +56,7 @@ lang = {
 			"Paralizado",
 			"Envenenado",
 			"Poseído",
-			"Solidifcado",
+			"Solidificado",
 			"Insolación",
 	"ifBrowserLang:ja", //Japanese by porog
 			"名前",
